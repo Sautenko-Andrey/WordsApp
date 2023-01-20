@@ -22,6 +22,14 @@ a:hover {
     text-decoration: none;
 }
 
+a.change-translate {
+    color: black;
+}
+
+a.change-translate:hover {
+    color: blue;
+}
+
 img {
     max-width: 600px;
     height: auto;
