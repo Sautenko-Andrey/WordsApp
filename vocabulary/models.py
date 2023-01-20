@@ -16,3 +16,4 @@ class UserEngAnswer(models.Model):
         verbose_name = 'Ответ пользователя на английском'
         verbose_name_plural = 'Ответ пользователя на английском'
 
+

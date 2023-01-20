@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from .models import *
@@ -25,3 +27,16 @@ class TypeEngWord(forms.ModelForm):
         if self.__USER_REQUEST_MAX_LENGTH < len(eng_answer):
             raise ValidationError('Вы ввели слишком много букв...')
         return eng_answer
+
+
+class RegisterUserForm(UserCreationForm):
+    '''Собственная форма регистрации пользователя на сайте'''
+
+    username=forms.CharField(label='Логин',widget=forms.TextInput(attrs={'class':'form-input'}))
+    password1 = forms.CharField(label='Пароль',widget=forms.PasswordInput(attrs={'class':'form-input'}))
+    password2 = forms.CharField(label='Повтори пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    email=forms.CharField(label='email',widget=forms.EmailInput(attrs={'class':'form-input'}))
+
+    class Meta:
+        model=User
+        fields=('username','password1','password2','email')
