@@ -18,19 +18,19 @@ class MainPage(MutualContext,CreateView):
     template_name = 'vocabulary/index.html'
     success_url = reverse_lazy('home')
 
-    def check_user_answer(self):
-        user_answer=get_user_eng_answer
-
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context_dict = super().get_context_data(**kwargs)
 
-        context_dict['rus_word'] = get_rus_word
-        user_eng_answer=get_user_eng_answer
-        if user_eng_answer==get_rus_word.eng:
-            context_dict['result']='правильно!'
-        else:
-            context_dict['result']='неправильно!'
+        words=WordFromData()
+        context_dict['rus_word'] = words.show_rus_word
+        context_dict['user_answer'] = get_user_eng_answer
+        context_dict['right_value'] = words.show_eng_word
+        # if get_user_eng_answer != words.show_eng_word:
+        #     context_dict['result'] = ' Неправильно!'
+        # elif get_user_eng_answer == words.show_eng_word:
+        #     context_dict['result'] = 'Правильно!'
+
 
         mutual_context_dict = self.get_user_context(title='Проверь свой словарный запас')
         return dict(list(context_dict.items()) + list(mutual_context_dict.items()))
@@ -38,3 +38,6 @@ class MainPage(MutualContext,CreateView):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
+
+

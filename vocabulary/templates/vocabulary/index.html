@@ -23,9 +23,10 @@
                     {% csrf_token %}
                     <div class="form-error">{{form.non_filed_errors}}</div>
                     {% for f in form %}
-                    <h5><label class="form-label" for="{{f.id_for_label}}"><b>{{rus_word.rus}}</b></label>{{f}}
+                    <h5 align="center"><label class="form-label" for="{{f.id_for_label}}"><b>{{rus_word}}</b></label>{{f}}
                     </h5>
                     {{result}}
+                    Правильный ответ был ===> {{right_value}}
                     <div class="form-error">{{f.errors}}</div>
                     {% endfor %}
                     <h6 align="right">
