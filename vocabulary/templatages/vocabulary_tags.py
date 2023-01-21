@@ -8,7 +8,7 @@ register=template.Library()
 
 class WordFromData:
     def __init__(self):
-        self.WORD_PK=randint(1,4)
+        self.WORD_PK=randint(8,15)
     @register.simple_tag()
     def show_rus_word(self):
         '''Тэг, который берет случайное слово на русском из БД'''

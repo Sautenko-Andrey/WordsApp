@@ -1,6 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import logout, login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from .forms import *
@@ -42,7 +44,7 @@ class MainPageEngRus(MutualContext,CreateView):
 
     form_class = TypeEngWord
     template_name = 'vocabulary/index2.html'
-    success_url = reverse_lazy('home')
+    success_url = 'EngRusVariant'
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -68,13 +70,38 @@ class RegisterUser(MutualContext,CreateView):
     template_name = 'vocabulary/register.html'
     success_url = reverse_lazy('home')
 
+    def form_valid(self, form):
+        user=form.save()
+        login(self.request,user)
+        return redirect('home')
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context_dict = super().get_context_data(**kwargs)
         mutual_context_dict = self.get_user_context(title='Регистрация')
         return dict(list(context_dict.items()) + list(mutual_context_dict.items()))
 
+
+class LoginUser(MutualContext,LoginView):
+    '''Класс-представление, отвечающее за отображение
+     формы авторизации пользователя на сайте'''
+
+    form_class = LoginForm
+    template_name = 'vocabulary/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_dict = super().get_context_data(**kwargs)
+        mutual_context_dict = self.get_user_context(title='Авторизация')
+        return dict(list(context_dict.items()) + list(mutual_context_dict.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 
 

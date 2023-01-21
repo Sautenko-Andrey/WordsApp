@@ -3,21 +3,25 @@
 {% block content %}
 <br>
 <br>
+<br>
+<br>
+<br>
 <div class="container">
     <div class="row">
         <div class="col-xl-4 col-md-4 col-sm-4" align="left"></div>
         <div class="col-xl-4 col-md-4 col-sm-4" align="center">
             <div class="card text-bg-light mb-3" style="max-width: 18rem;">
-                <div class="card-header"><b>Регистрация пользователя</b></div>
+                <div class="card-header"><b>Авторизация пользователя</b></div>
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
+                        <div class="form-error">{{form.non_field_errors}}</div>
                         {% for f in form %}
                         <p class="card-text"><label class="form-label" for="{{f.id_for_label}}">{{f.label}}:</label>{{f}}
                         </p>
                         <div class="form-error">{{f.errors}}</div>
                         {% endfor %}
-                        <button type="submit">Регистрация</button>
+                        <button type="submit">Войти</button>
                     </form>
                 </div>
             </div>
